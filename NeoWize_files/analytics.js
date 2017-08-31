@@ -1,6 +1,9 @@
+// demo identifier
+var DEMO_NAME = location.host || "local";
+
 // GOOGLE ANALYTICS
-try
-{
+try {
+
     (function() {
 
         // get google analytics
@@ -18,20 +21,18 @@ try
 
         // helper function to send google analytics event
         window.sendGaEvent = function(action) {
-            window.ga('send', 'event', "user_event", action, location.host);
+            window.ga('send', 'event', "user_event", action, DEMO_NAME);
         }
 
     })();
 }
-catch (e)
-{
+catch (e) {
     console.warn("Error with google analytics!", e);
     window.ga = function() {};
 }
 
 // HOTJAR
 (function() {
-
     // guarantree.neowize.com
     if (location.host == "guarantee.neowize.com") {
         (function(h,o,t,j,a,r){
@@ -77,3 +78,40 @@ catch (e)
         })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     }
 })();
+
+// WHEN USER HIT SIGNUP
+function neowizeSubmitSignup() {
+
+    // get site and email
+    var site = $("#site-input").val();
+    var email = $("#email-input").val();
+
+    // if form not filled skip
+    if (site.length == 0 || email.length == 0) return;
+
+    // send email and site to our server
+    $.ajax({
+        url: "http://api1.shoptimally.com/dashboard/h/send_notification_mail/",
+        type: 'POST',
+        data: JSON.stringify({
+            subject: "Someone registered to demo '" + window.DEMO_NAME + "': " + email,
+            body: "Email: " + email + "\r\nSite: " + site,
+        }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+    }).fail(function() {
+        window.sendGaEvent("FAILED_TO_SEND_DETAILS_TO_SERVER");
+    });
+
+    // send google analytics event
+    window.sendGaEvent("clicked_start_now");
+    window.sendGaEvent("data_" + site + "_" + " " + email);
+
+    // bump "thank you" message
+    $("#site-input").val("");
+    $("#email-input").val("");
+    $("#thank-you").css("display", "block");
+
+    // return false so we won't really submit
+    return false;
+}

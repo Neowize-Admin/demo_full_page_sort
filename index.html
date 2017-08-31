@@ -30,7 +30,7 @@
     <div id="wrapper">
         <header id="header">
             <div class="container">
-                <strong class="logo"><a href="/">NeoWize</a></strong>
+                <strong class="logo"><a href="#">NeoWize</a></strong>
 
 
                 <!-- top navbar -->
@@ -38,7 +38,7 @@
 
                     <ul class="login-btns">
                         <!-- NeoSet: call-to-action top-right button (in navbar) -->
-                        <!--<li><a class="btn-signup" href="/">Start Today!</a></li>-->
+                        <!--<li><a class="btn-signup" href="#">Start Today!</a></li>-->
                     </ul>
                 </nav>
             </div>
@@ -54,19 +54,22 @@
                 <p style="">Give your users a fully personalized experience.</p>
 
                 <div class="signup-form ">
-                    <form action="/" method="post" id="signup-form" novalidate="" onsubmit="return submitSignup(event);">
+                    <form id="signup-form" onsubmit="return neowizeSubmitSignup() && false;">
 
                         <div class="input-holder">
-                            <input type="url" class="form-control" placeholder="Your website" name="website">
+                            <input type="text" class="form-control" placeholder="Your website" name="website" id="site-input" required>
                         </div>
 
                         <div class="input-holder">
-                            <input type="email" class="form-control" placeholder="Your email" name="email">
+                            <input type="email" class="form-control" placeholder="Your email" name="email" id="email-input" required>
                         </div>
 
                         <footer>
                             <!-- NeoSet: call-to-action main button (in form, after site and email) -->
-                            <button class="btn" data-optly-fca1ba35-734d-4952-8b59-34e7808fd8c1="" style="">START TODAY</button>
+                            <input type="submit" value="START TODAY" class="btn" style="">
+
+                            <!-- NeoSet: thank you message -->
+                            <p id="thank-you" style="display: none; block;color: #3efb94;font-size: 120%;">Thank you for submitting your request, we will send you a demo soon!</p>
 
                             <!-- NeoSet: small text right under the call-to-action button, in the signup form -->
                             <p>1-Min setup, no integrations.</p>
